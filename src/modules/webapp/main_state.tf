@@ -1,16 +1,13 @@
 data "azurerm_client_config" "tfstatecurrent" {}
 
-resource "random_string" "unique" {
-  length  = 6
-  special = false
-  upper   = false
+resource "random_id" "tfstatestoracct" {
   keepers = {
     rg_id = "${var.TFSTATE_RG_NAME}"
   }
 }
 
 resource "azurerm_storage_account" "tfstate" {
-  name                      = "${var.NAME}${random_string.unique.result}"
+  name                      = "${var.NAME}${random_id.tfstatestoracct.id.hex}"
   resource_group_name       = var.TFSTATE_RG_NAME
   location                  = var.LOCATION
   account_tier              = "Standard"

@@ -64,7 +64,7 @@ resource "azurerm_key_vault_secret" "cosmoscol" {
 
 resource "azurerm_key_vault_secret" "appinsights" {
   name         = "AppInsightsKey"
-  value        = azurerm_application_insights.init-appIns.instrumentation_key
+  value        = azurerm_application_insights.init-webappIns.instrumentation_key
   key_vault_id = azurerm_key_vault.kv.id
 }
 

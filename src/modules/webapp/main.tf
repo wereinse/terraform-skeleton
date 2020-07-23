@@ -147,3 +147,15 @@ output "APP_SERVICE_DONE" {
   value       = true
   description = "App Service setup is complete"
 }
+
+resource azurerm_app_service_plan init-functionapp-plan {
+  name                = "${var.NAME}-functionappplan"
+  location            = var.LOCATION
+  resource_group_name = var.APP_RG_NAME
+  kind                = "FunctionApp"
+  reserved            = true
+  sku {
+    tier = "Dynamic"
+    size = "Y1"
+  }
+}

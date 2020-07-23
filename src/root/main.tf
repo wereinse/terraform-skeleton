@@ -134,3 +134,12 @@ module "aci" {
   ACI_RG_NAME         = azurerm_resource_group.aci.name
   APP_SERVICE_DONE    = "${module.web.APP_SERVICE_DONE}"
 }
+
+module "function" {
+  source              = "../modules/function"
+  NAME                = var.NAME
+  LOCATION            = var.LOCATION
+  INSTANCE            = var.INSTANCE
+  FUNCTION_RG         = azurerm_resource_group.app.name
+  FUNCTION_APP_CONTENT  = var.FUNCTION_APP_CONTENT
+}

@@ -1,8 +1,9 @@
 ## TODO
 
 variable-ize image db/main and acr/main
-in func/main.tf - randomize stor acct name
-
+in func/main.tf and web/main_state.tf - randomize stor acct name and grab it 
+via an output storage app and func app must be globally unique
+put in readme to comment out module in root/main.tf of unwanted resources
 
 - update readme with changes
 

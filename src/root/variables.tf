@@ -175,3 +175,8 @@ variable "INSTANCE" {
   type        = map(number)
   description = "List of additional terraform instance locations"
 }
+
+variable "FUNCTION_APP_CONTENT" {
+  default     = "https://github.com/zdeptawa/terraform-on-azure/raw/ignite-demo/demos/azurerm_tf_aks_ignite_demo/sample_data/ignite-tf-function-app-content.zip"
+  // This is a function app created in the Azure Portal and exported to json and zipped and placed in the Github repo.
+}
