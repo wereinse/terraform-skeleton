@@ -59,6 +59,11 @@ resource "azurerm_resource_group" "tfstate" {
   location = var.LOCATION
 }
 
+resource "azurerm_resource_group" "function-app" {
+  name     = "${var.NAME}-function-rg"
+  location = var.LOCATION
+}
+
 module "acr" {
   source        = "../modules/acr"
   NAME          = var.NAME
@@ -143,6 +148,10 @@ module "function" {
   NAME                = var.NAME
   LOCATION            = var.LOCATION
   INSTANCE            = var.INSTANCE
-  FUNCTION_RG         = azurerm_resource_group.app.name
+  FUNCTION_RG         = azurerm_resource_group.function-app.name
   FUNCTION_APP_JSON   = var.FUNCTION_APP_JSON
+  SSH_PUBLIC_KEY      = var.SSH_PUBLIC_KEY
+  ACR_SP_ID           = var.ACR_SP_ID
+  ACR_SP_SECRET       = var.ACR_SP_SECRET
+  AKS_APP_SETTINGS    = module.web.APPINS_IKEY
 }

@@ -20,5 +20,23 @@ variable "FUNCTION_APP_JSON" {
   description = "Zip file containing the code for the Azure Function"
   type        = string
 }
-//  app_service_plan_id = "var.NAME-${each.key}"
 
+variable "SSH_PUBLIC_KEY" {
+  description = "Public key to exchange"
+default     = "~/.ssh/id_rsa.pub"
+}
+
+variable "ACR_SP_ID" {
+  type        = string
+  description = "The ACR Service Principal"
+}
+
+variable "ACR_SP_SECRET" {
+  type        = string
+  description = "The ACR Service Principal secret"
+}
+
+variable "AKS_APP_SETTINGS" {
+  type        = string
+  description = "The AKS Applications settings ID"
+}

@@ -19,40 +19,38 @@
 */
 
 resource "random_id" "funcstorage" {
+  byte_length = 6
   keepers = {
-    rg_id = "${var.APP_RG_NAME}"
+    rg_id = "${var.FUNCTION_RG}"
   }
 }
 
 resource "azurerm_kubernetes_cluster" "aks" {
+  for_each                 = var.INSTANCE
   name                     = substr("${each.key}funcstorage", 0, 24)
-  resource_group_name      = var.APP_RG_NAME
+  resource_group_name      = var.FUNCTION_RG
   location                 = var.LOCATION
-  dns_prefix               = "var.DNS_PREFIX"
-
+  dns_prefix               = var.NAME 
+  
   linux_profile {
     admin_username = "ubuntu"
 
     ssh_key {
-      key_data = file("${var.ssh_public_key}")
+      key_data = var.SSH_PUBLIC_KEY
     }
   }
 
-  agent_pool_profile {
+  default_node_pool {
     name = "default"
-    count = 3
+//    count = 1
     vm_size = "Standard_DS1_v2"
-    os_type = "Linux"
+//    os_type = "Linux"
     os_disk_size_gb = "30"
   }
 
   service_principal {
     client_id = var.ACR_SP_ID
     client_secret = var.ACR_SP_SECRET
-  }
-
-  tags {
-    Environment = "Development"
   }
 }
 
@@ -82,8 +80,8 @@ output "host" {
 
 resource "azurerm_storage_account" "function-storage-account" {
   for_each                 = var.INSTANCE
-  name                     = substr("${each.key}.random_id.funcstorage.hex", 0, 24)
-  resource_group_name      = var.var.APP_RG_NAME
+  name                     = substr("${each.key}.random_id.funcstorage.id", 0, 24)
+  resource_group_name      = var.FUNCTION_RG
   location                 = var.LOCATION
   account_tier             = "Standard"
   account_replication_type = "LRS"
@@ -91,15 +89,12 @@ resource "azurerm_storage_account" "function-storage-account" {
 
 resource "azurerm_function_app" "function-app" {
   for_each                  = var.INSTANCE
-  name                      = "${each.key}-funcapp.random_id.funcstorage.hex"
+  name                      = "${each.key}-funcapp.random_id.funcstorage.id"
   location                  = var.LOCATION
-  resource_group_name       = var.APP_RG_NAME
-  app_service_plan_id       = "var.NAME-${each.key}"
+  resource_group_name       = var.FUNCTION_RG
+  app_service_plan_id       = module.web.azurerm_app_service_plan.init-functionapp-plan.id 
   storage_connection_string = azurerm_storage_account.function-storage-account[each.key].primary_connection_string 
   version                   = "~2"
-
-  app_settings {
-    AppInsights_InstrumentationKey  = module.web.azurerm_application_insights.init-funcappIns.instrumentation_key
-    WEBSITE_RUN_FROM_PACKAGE        = var.FUNCTION_APP_JSON
-  }
+  app_settings              = var.AKS_APP_SETTINGS
+  WEBSITE_RUN_FROM_PACKAGE  = var.FUNCTION_APP_JSON
 }
