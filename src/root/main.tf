@@ -64,6 +64,7 @@ module "acr" {
   NAME          = var.NAME
   LOCATION      = var.LOCATION
   REPO          = var.REPO
+  IMAGE_NAME    = var.IMAGE_NAME
   ACR_RG_NAME   = azurerm_resource_group.acr.name
   ACR_SP_ID     = var.ACR_SP_ID
   ACR_SP_SECRET = var.ACR_SP_SECRET
@@ -79,6 +80,7 @@ module "db" {
   COSMOS_COL     = var.COSMOS_COL
   ACR_SP_ID      = var.ACR_SP_ID
   ACR_SP_SECRET  = var.ACR_SP_SECRET
+  IMAGE_NAME     = var.IMAGE_NAME
 }
 
 module "web" {
@@ -130,16 +132,17 @@ module "aci" {
   LOCATION            = var.LOCATION
   INSTANCE            = var.INSTANCE
   REPO                = var.REPO
+  IMAGE_NAME          = var.IMAGE_NAME
   CONTAINER_FILE_NAME = var.CONTAINER_FILE_NAME
   ACI_RG_NAME         = azurerm_resource_group.aci.name
   APP_SERVICE_DONE    = "${module.web.APP_SERVICE_DONE}"
 }
 
 module "function" {
-  source              = "../modules/function"
+  source              = "../modules/functions"
   NAME                = var.NAME
   LOCATION            = var.LOCATION
   INSTANCE            = var.INSTANCE
   FUNCTION_RG         = azurerm_resource_group.app.name
-  FUNCTION_APP_CONTENT  = var.FUNCTION_APP_CONTENT
+  FUNCTION_APP_JSON   = var.FUNCTION_APP_JSON
 }

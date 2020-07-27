@@ -30,6 +30,13 @@ then
   exit 1
 fi
 
+# set image and exit if not set
+if [ -z $TF_IMAGE_NAME ]
+then
+  echo "Please export TF_IMAGE_NAME first"
+  exit 1
+fi
+
 # create terraform.tfvars and replace template values
 
 # replace name
@@ -40,6 +47,9 @@ sed -i "s/<<TF_VAR_LOCATION>>/$TF_VAR_LOCATION/g" terraform.tfvars
 
 # replace repo
 sed -i "s/<<TF_VAR_REPO>>/$TF_VAR_REPO/g" terraform.tfvars
+
+# replace image
+sed -i "s/<<TF_IMAGE_NAME>>/$TF_IMAGE_NAME/g" terraform.tfvars
 
 # replace email
 sed -i "s/<<TF_VAR_EMAIL>>/$TF_VAR_EMAIL/g" terraform.tfvars

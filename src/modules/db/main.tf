@@ -18,6 +18,7 @@
 *  COSMOS_COL     = var.COSMOS_COL
 *  ACR_SP_ID      = var.ACR_SP_ID
 *  ACR_SP_SECRET  = var.ACR_SP_SECRET
+*  IMAGE_NAME     = var.IMAGE_NAME
 *}
 * ```
 */
@@ -63,7 +64,7 @@ resource "azurerm_cosmosdb_sql_container" "cosmosdbcontainer" {
 
 resource null_resource db-import {
   provisioner "local-exec" {
-    command = "docker pull hello-world:latest && docker run --rm --name \"${var.NAME}\" hello-world:latest" 
+    command = "docker pull \"${var.IMAGE_NAME}\":latest && docker run --rm --name \"${var.NAME}\" \"${var.IMAGE_NAME}\":latest" 
   }
 }
 
@@ -75,6 +76,3 @@ output "DB_IMPORT_DONE" {
   description = "db-import complete"
 }
 
-// data "docker_registry_image" "db-import" {
-//   name        = var.REPO
-//}

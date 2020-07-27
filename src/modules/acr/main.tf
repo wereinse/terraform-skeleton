@@ -13,6 +13,7 @@
 *  NAME          = var.NAME
 *  LOCATION      = var.LOCATION
 *  REPO          = var.REPO
+*  IMAGE_NAME    = var.IMAGE_NAME
 *  ACR_RG_NAME   = azurerm_resource_group.acr.name
 *  ACR_SP_ID     = var.ACR_SP_ID
 *  ACR_SP_SECRET = var.ACR_SP_SECRET
@@ -42,7 +43,7 @@ resource null_resource acr-access {
 
 resource null_resource acr-import {
   provisioner "local-exec" {
-    command = "az acr import -n ${azurerm_container_registry.acr.name} --source ${var.REPO}"
+    command = "az acr import -n ${azurerm_container_registry.acr.name} --source ${var.REPO}:${var.IMAGE_NAME}"
   }
 }
 resource "azurerm_container_registry_webhook" "webhook" {
@@ -52,7 +53,7 @@ resource "azurerm_container_registry_webhook" "webhook" {
   registry_name       = azurerm_container_registry.acr.name
   service_uri         = "https://${var.NAME}-aci.scm.azurewebsites.net/docker/hook"
   status              = "enabled"
-  scope               = "${var.REPO}:latest"
+  scope               = "${var.REPO}/${var.IMAGE_NAME}:latest"
   actions             = ["push"]
   custom_headers = {
     "Content-Type" = "application/json"

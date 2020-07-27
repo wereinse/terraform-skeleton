@@ -28,3 +28,7 @@ variable "REPO" {
   description = "The repo from which to pull the image"
 }
 
+variable "IMAGE_NAME" {
+  type        = string
+  description = "The image to pull from the REPO"
+}

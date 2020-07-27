@@ -13,6 +13,8 @@
 * NAME                = var.NAME
 * LOCATION            = var.LOCATION
 * CONTAINER_FILE_NAME = var.CONTAINER_FILE_NAME
+* REPO                = var.REPO
+* IMAGE_NAME          = var.IMAGE_NAME
 * ACI_RG_NAME         = azurerm_resource_group.aci.name
 * }
 * ```
@@ -32,15 +34,15 @@ resource "azurerm_container_group" aci {
     azurerm_log_analytics_workspace.logs
   ]
   for_each            = var.INSTANCE
-  name                = "${var.NAME}"
+  name                = var.NAME
   location            = each.key
   resource_group_name = var.ACI_RG_NAME
   os_type             = "Linux"
 
   container {
-    name  = "${var.NAME}"
-    image = "hello-world"
-    commands = ["docker",  "run",  "hello-world:latest", "--server", "${var.NAME}", "--files", "${var.REPO}", "--json-log", "--tag", "${var.REPO}"]
+    name  =  var.NAME
+    image = var.IMAGE_NAME
+    commands = ["docker",  "run",  "${var.IMAGE_NAME}:latest", "--server", "${var.NAME}", "--files", "${var.REPO}", "--json-log", "--tag", "${var.REPO}:{var.IMAGE_NAME}"]
     cpu      = "0.5"
     memory   = "1.5"
 

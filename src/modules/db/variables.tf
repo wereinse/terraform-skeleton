@@ -43,3 +43,8 @@ variable "ACR_SP_SECRET" {
   type        = string
   description = "The ACR Service Principal secret"
 }
+
+variable "IMAGE_NAME" {
+  type        = string
+  description = "The image to pull from the REPO"
+}

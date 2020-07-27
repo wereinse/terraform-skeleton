@@ -31,3 +31,8 @@ variable "REPO" {
 variable "INSTANCE" {
   type = map(string)
 }
+
+variable "IMAGE_NAME" {
+  type        = string
+  description = "The image to pull from the REPO"
+}

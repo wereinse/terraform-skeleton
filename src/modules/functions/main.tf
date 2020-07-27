@@ -34,7 +34,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     admin_username = "ubuntu"
 
     ssh_key {
-      key_data = "${file("${var.ssh_public_key}")}"
+      key_data = file("${var.ssh_public_key}")
     }
   }
 
@@ -99,7 +99,7 @@ resource "azurerm_function_app" "function-app" {
   version                   = "~2"
 
   app_settings {
-    AppInsights_InstrumentationKey  = "${module.web.azurerm_application_insights.init-funcappIns.instrumentation_key}"
-    "WEBSITE_RUN_FROM_PACKAGE"      = "${var.FUNCTION_APP_CONTENT}"
+    AppInsights_InstrumentationKey  = module.web.azurerm_application_insights.init-funcappIns.instrumentation_key
+    WEBSITE_RUN_FROM_PACKAGE        = var.FUNCTION_APP_JSON
   }
 }

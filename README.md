@@ -71,8 +71,11 @@ export TF_VARS_EMAIL=replaceWithYourEmail
 # change the location (optional - centralus, westus, eastus etc)
 export TF_VARS_LOCATION=replaceWithYourLocation
 
-# change the repo (optional - valid: )
+# set the repo 
 export TF_VARS_REPO=replacewithdockercontainerrepo
+
+# set the image 
+export TF_IMAGE_NAME=replacewithdockercontainerimagename
 
 ```
 
