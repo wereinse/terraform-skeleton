@@ -53,15 +53,11 @@ resource "azurerm_function_app" "function-app" {
   version                   = "~2"
 
   app_settings {
-    AppInsights_InstrumentationKey  = "${module.web.azurerm_application_insights.init-appIns.instrumentation_key}"
-    "WEBSITE_RUN_FROM_PACKAGE"      = "${var.FUNCTION_APP_CONTENT}"
+    AppInsights_InstrumentationKey  = module.web.azurerm_application_insights.init-appIns.instrumentation_key
+    WEBSITE_RUN_FROM_PACKAGE      = var.FUNCTION_APP_CONTENT
   }
 }
-// data "azurerm_storage_account" "function-storage-account" {
-//   for_each                 = var.INSTANCE
-//   name                     = azurerm_storage_account.function-storage-account[each.key].name
-//   resource_group_name      = var.FUNCTION_RG
-// }
+
 resource "azurerm_app_service_plan" "function-service-plan" {
   for_each                 = var.INSTANCE
   name                     = "${each.key}-function-service-plan"
@@ -81,11 +77,11 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   linux_profile {
     admin_username = "ubuntu"
-
-    ssh_key {
-      key_data = "${file("${var.ssh_public_key}")}"
-    }
   }
+    // ssh_key {
+    //   key_data = "${file("${var.ssh_public_key}")}"
+    // }
+  // }
 
   agent_pool_profile {
     name = "default"
@@ -95,37 +91,51 @@ resource "azurerm_kubernetes_cluster" "aks" {
     os_disk_size_gb = "30"
   }
 
-  service_principal {
-    client_id = "00000000-0000-0000-0000-000000000000"
-    client_secret = "000000000000000000000000000000000000"
+  azure_active_directory {
+    managed       = "true"
+  }
+
+  role_based_access_control {
+    enabled       = "true"
   }
 
   tags {
     Environment = "Development"
   }
-}
 
 output "id" {
-    value = "${azurerm_kubernetes_cluster.aks.id}"
+    value = azurerm_kubernetes_cluster.aks.id
 }
 
-output "kube_config" {
-  value = "${azurerm_kubernetes_cluster.aks.kube_config_raw}"
+output "admin-group-object-ids" {
+    value = azurerm_kubernetes_cluster.aks.admin_group_object_ids
 }
 
-output "client_key" {
-  value = "${azurerm_kubernetes_cluster.aks.kube_config.0.client_key}"
+output "client-app-id" {
+    value = azurerm_kubernetes_cluster.aks.client_app_id
 }
 
-output "client_certificate" {
-  value = "${azurerm_kubernetes_cluster.aks.kube_config.0.client_certificate}"
+output "server-app-id" {
+    value = azurerm_kubernetes_cluster.aks.server_app_id
 }
+}
+// output "kube_config" {
+//   value = "${azurerm_kubernetes_cluster.aks.kube_config_raw}"
+// }
 
-output "cluster_ca_certificate" {
-  value = "${azurerm_kubernetes_cluster.aks.kube_config.0.cluster_ca_certificate}"
-}
+// output "client_key" {
+//   value = "${azurerm_kubernetes_cluster.aks.kube_config.0.client_key}"
+// }
 
-output "host" {
-  value = "${azurerm_kubernetes_cluster.aks.kube_config.0.host}"
-}
+// output "client_certificate" {
+//   value = "${azurerm_kubernetes_cluster.aks.kube_config.0.client_certificate}"
+// }
+
+// output "cluster_ca_certificate" {
+//   value = "${azurerm_kubernetes_cluster.aks.kube_config.0.cluster_ca_certificate}"
+// }
+
+// output "host" {
+//   value = "${azurerm_kubernetes_cluster.aks.kube_config.0.host}"
+// }
 

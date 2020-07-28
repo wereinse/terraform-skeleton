@@ -12,11 +12,11 @@ variable "LOCATION" {
   description = "The Azure Region in which all resources in this example should be created."
   type        = string
 }
-variable "INSTANCES" {
+variable "INSTANCE" {
   description = "Map of the environment name and the helium application language to use i.e {myinstance1 = boh, myinstance2 = ibmivcount}"
   type        = map(string)
 }
-variable "FUNCTIONAPP" {
+variable "FUNCTION_APP_JSON" {
   description = "Zip file containing the code for the Azure Function"
   type        = string
 }

@@ -63,7 +63,11 @@ variable "COSMOS_COL" {
 variable "REPO" {
   type        = string
   description = "The helium repo"
-  default     = "helium-csharp"
+}
+
+variable "IMAGE_NAME" {
+  type        = string
+  description = "The image to pull from the REPO"
 }
 
 variable "EMAIL_FOR_ALERTS" {
@@ -175,3 +179,18 @@ variable "INSTANCE" {
   type        = map(number)
   description = "List of additional terraform instance locations"
 }
+
+variable "FUNCTION_APP_JSON" {
+  default     = "https://github.com/zdeptawa/terraform-on-azure/raw/ignite-demo/demos/azurerm_tf_aks_ignite_demo/sample_data/ignite-tf-function-app-content.zip"
+  // This is a function app created in the Azure Portal and exported to json and zipped and placed in the Github repo.
+}
+
+variable "SSH_PUBLIC_KEY" {
+  default     = "~/.ssh/id_rsa.pub"
+}
+
+variable "AKS_APP_SETTINGS" {
+  type        = string
+  description = "The AKS Applications settings ID"
+}
+

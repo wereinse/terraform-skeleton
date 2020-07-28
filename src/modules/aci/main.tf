@@ -32,7 +32,7 @@ resource "azurerm_container_group" aci {
     azurerm_log_analytics_workspace.logs
   ]
   for_each            = var.INSTANCE
-  name                = "${var.NAME}"
+  name                = var.NAME
   location            = each.key
   resource_group_name = var.ACI_RG_NAME
   os_type             = "Linux"
