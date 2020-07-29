@@ -38,7 +38,7 @@ resource "azurerm_container_group" aci {
   os_type             = "Linux"
 
   container {
-    name  = "${var.NAME}"
+    name  = var.NAME
     image = "hello-world"
     commands = ["docker",  "run",  "hello-world:latest", "--server", "${var.NAME}", "--files", "${var.REPO}", "--json-log", "--tag", "${var.REPO}"]
     cpu      = "0.5"

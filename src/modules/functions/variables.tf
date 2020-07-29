@@ -20,5 +20,16 @@ variable "FUNCTION_APP_JSON" {
   description = "Zip file containing the code for the Azure Function"
   type        = string
 }
-//  app_service_plan_id = "var.NAME-${each.key}"
+variable "APPINS_IKEY" {
+  description = "Application Insights key used by Function module"
+  type        = string
+}
+variable "TF_TENANT_ID" {
+  type        = string
+  description = "This is the tenant ID of the Azure subscription. This is only used by the parent main.tf"
+}
 
+variable "ACR_SP_ID" {
+  type        = string
+  description = "The ACR Service Principal ID"
+}

@@ -19,6 +19,7 @@
 
 provider "azurerm" {
   version = "2.0.0"
+  use_msi = true
   features {}
 
   subscription_id = var.TF_SUB_ID
@@ -74,71 +75,71 @@ module "acr" {
   ACR_SP_SECRET = var.ACR_SP_SECRET
 }
 
-// module "db" {
-//   source         = "../modules/db"
-//   NAME           = var.NAME
-//   LOCATION       = var.LOCATION
-//   COSMOS_RG_NAME = azurerm_resource_group.cosmos.name
-//   COSMOS_RU      = var.COSMOS_RU
-//   COSMOS_DB      = var.COSMOS_DB
-//   COSMOS_COL     = var.COSMOS_COL
-//   ACR_SP_ID      = var.ACR_SP_ID
-//   ACR_SP_SECRET  = var.ACR_SP_SECRET
-// }
+module "db" {
+  source         = "../modules/db"
+  NAME           = var.NAME
+  LOCATION       = var.LOCATION
+  COSMOS_RG_NAME = azurerm_resource_group.cosmos.name
+  COSMOS_RU      = var.COSMOS_RU
+  COSMOS_DB      = var.COSMOS_DB
+  COSMOS_COL     = var.COSMOS_COL
+  ACR_SP_ID      = var.ACR_SP_ID
+  ACR_SP_SECRET  = var.ACR_SP_SECRET
+}
 
-// module "web" {
-//   source = "../modules/webapp"
+module "web" {
+  source = "../modules/webapp"
 
-//   NAME              = var.NAME
-//   LOCATION          = var.LOCATION
-//   REPO              = var.REPO
-//   ACR_SP_ID         = var.ACR_SP_ID
-//   ACR_SP_SECRET     = var.ACR_SP_SECRET
-//   APP_RG_NAME       = azurerm_resource_group.app.name
-//   TFSTATE_RG_NAME   = azurerm_resource_group.tfstate.name
-//   TENANT_ID         = var.TF_TENANT_ID
-//   COSMOS_RG_NAME    = azurerm_resource_group.cosmos.name
-//   COSMOS_URL        = "https://${var.NAME}.documents.azure.com:443/"
-//   COSMOS_KEY        = module.db.ro_key
-//   COSMOS_DB         = var.COSMOS_DB
-//   COSMOS_COL        = var.COSMOS_COL
-//   DB_IMPORT_DONE    = "${module.db.DB_IMPORT_DONE}"
-//   APP_SERVICE_DONE  = "${module.web.APP_SERVICE_DONE}"
-//   ACI_DONE          = "${module.aci.ACI_DONE}"
-//   TF_SUB_ID         = var.TF_SUB_ID
-//   EMAIL_FOR_ALERTS  = var.EMAIL_FOR_ALERTS
-//   RT_THRESHOLD      = var.RT_THRESHOLD
-//   RT_OPERATOR       = var.RT_OPERATOR
-//   RT_SEVERITY       = var.RT_SEVERITY
-//   RT_FREQUENCY      = var.RT_FREQUENCY
-//   RT_WINDOW_SIZE    = var.RT_WINDOW_SIZE
-//   MR_THRESHOLD      = var.MR_THRESHOLD
-//   MR_OPERATOR       = var.MR_OPERATOR
-//   MR_SEVERITY       = var.MR_SEVERITY
-//   MR_FREQUENCY      = var.MR_FREQUENCY
-//   MR_WINDOW_SIZE    = var.MR_WINDOW_SIZE
-//   WT_FREQUENCY      = var.WT_FREQUENCY
-//   WT_WINDOW_SIZE    = var.WT_WINDOW_SIZE
-//   WT_SEVERITY       = var.WT_SEVERITY
-//   WT_THRESHOLD      = var.WT_THRESHOLD
-//   WT_OPERATOR       = var.WT_OPERATOR
-//   WV_FREQUENCY      = var.WV_FREQUENCY
-//   WV_WINDOW_SIZE    = var.WV_WINDOW_SIZE
-//   WV_SEVERITY       = var.WV_SEVERITY
-//   WV_THRESHOLD      = var.WV_THRESHOLD
-//   WV_OPERATOR       = var.WV_OPERATOR
-// }
+  NAME              = var.NAME
+  LOCATION          = var.LOCATION
+  REPO              = var.REPO
+  ACR_SP_ID         = var.ACR_SP_ID
+  ACR_SP_SECRET     = var.ACR_SP_SECRET
+  APP_RG_NAME       = azurerm_resource_group.app.name
+  TFSTATE_RG_NAME   = azurerm_resource_group.tfstate.name
+  TENANT_ID         = var.TF_TENANT_ID
+  COSMOS_RG_NAME    = azurerm_resource_group.cosmos.name
+  COSMOS_URL        = "https://${var.NAME}.documents.azure.com:443/"
+  COSMOS_KEY        = module.db.ro_key
+  COSMOS_DB         = var.COSMOS_DB
+  COSMOS_COL        = var.COSMOS_COL
+  DB_IMPORT_DONE    = "${module.db.DB_IMPORT_DONE}"
+  APP_SERVICE_DONE  = "${module.web.APP_SERVICE_DONE}"
+  ACI_DONE          = "${module.aci.ACI_DONE}"
+  TF_SUB_ID         = var.TF_SUB_ID
+  EMAIL_FOR_ALERTS  = var.EMAIL_FOR_ALERTS
+  RT_THRESHOLD      = var.RT_THRESHOLD
+  RT_OPERATOR       = var.RT_OPERATOR
+  RT_SEVERITY       = var.RT_SEVERITY
+  RT_FREQUENCY      = var.RT_FREQUENCY
+  RT_WINDOW_SIZE    = var.RT_WINDOW_SIZE
+  MR_THRESHOLD      = var.MR_THRESHOLD
+  MR_OPERATOR       = var.MR_OPERATOR
+  MR_SEVERITY       = var.MR_SEVERITY
+  MR_FREQUENCY      = var.MR_FREQUENCY
+  MR_WINDOW_SIZE    = var.MR_WINDOW_SIZE
+  WT_FREQUENCY      = var.WT_FREQUENCY
+  WT_WINDOW_SIZE    = var.WT_WINDOW_SIZE
+  WT_SEVERITY       = var.WT_SEVERITY
+  WT_THRESHOLD      = var.WT_THRESHOLD
+  WT_OPERATOR       = var.WT_OPERATOR
+  WV_FREQUENCY      = var.WV_FREQUENCY
+  WV_WINDOW_SIZE    = var.WV_WINDOW_SIZE
+  WV_SEVERITY       = var.WV_SEVERITY
+  WV_THRESHOLD      = var.WV_THRESHOLD
+  WV_OPERATOR       = var.WV_OPERATOR
+}
 
-// module "aci" {
-//   source              = "../modules/aci"
-//   NAME                = var.NAME
-//   LOCATION            = var.LOCATION
-//   INSTANCE            = var.INSTANCE
-//   REPO                = var.REPO
-//   CONTAINER_FILE_NAME = var.CONTAINER_FILE_NAME
-//   ACI_RG_NAME         = azurerm_resource_group.aci.name
-//   APP_SERVICE_DONE    = "${module.web.APP_SERVICE_DONE}"
-// }
+module "aci" {
+  source              = "../modules/aci"
+  NAME                = var.NAME
+  LOCATION            = var.LOCATION
+  INSTANCE            = var.INSTANCE
+  REPO                = var.REPO
+  CONTAINER_FILE_NAME = var.CONTAINER_FILE_NAME
+  ACI_RG_NAME         = azurerm_resource_group.aci.name
+  APP_SERVICE_DONE    = "${module.web.APP_SERVICE_DONE}"
+}
 
 module "function" {
   source              = "../modules/functions"
@@ -147,8 +148,10 @@ module "function" {
   LOCATION            = var.LOCATION
   FUNCTION_RG         = azurerm_resource_group.function-app.name
   FUNCTION_APP_JSON   = var.FUNCTION_APP_JSON
+  APPINS_IKEY         = module.web.APPINS_IKEY 
+  TF_TENANT_ID        = var.TF_TENANT_ID
   // SSH_PUBLIC_KEY      = var.SSH_PUBLIC_KEY
-  // ACR_SP_ID           = var.ACR_SP_ID
+  ACR_SP_ID           = var.ACR_SP_ID
   // ACR_SP_SECRET       = var.ACR_SP_SECRET
-  // AKS_APP_SETTINGS    = module.web.APPINS_IKEY
+  // AKS_APP_SETTINGS    = module.webapp.APPINS_IKEY
 }

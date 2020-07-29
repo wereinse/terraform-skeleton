@@ -1,5 +1,6 @@
 ## TODO
-
+get rid of devcontainer
+aksmsi - get aks to work with msi not sp's
 variable-ize image db/main and acr/main
 in func/main.tf - randomize stor acct name
 

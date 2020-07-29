@@ -194,3 +194,8 @@ variable "AKS_APP_SETTINGS" {
   description = "The AKS Applications settings ID"
 }
 
+variable "APPINS_IKEY" {
+  type        = string
+  description = "The application Insights key for the function app"
+}
+
