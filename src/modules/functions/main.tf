@@ -51,7 +51,7 @@ resource "azurerm_function_app" "function-app" {
   app_service_plan_id       = "var.NAME-${each.key}"
   storage_connection_string = azurerm_storage_account.function-storage-account[each.key].primary_connection_string 
   version                   = "~2"
-//  app_settings              = var.APPINS_IKEY 
+  app_settings              = module.webapp.APPINS_IKEY
 //  WEBSITE_RUN_FROM_PACKAGE     = var.FUNCTION_APP_JSON
 }
 

@@ -13,6 +13,7 @@ resource azurerm_application_insights init-functionappIns {
 }
 
 output "APPINS_IKEY" {
+  depends_on  = [azurerm_application_insights.init-functionappIns]
   value       = azurerm_application_insights.init-functionappIns.instrumentation_key
   sensitive   = true
 }

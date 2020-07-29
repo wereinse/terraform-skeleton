@@ -189,13 +189,5 @@ variable "SSH_PUBLIC_KEY" {
   default     = "~/.ssh/id_rsa.pub"
 }
 
-variable "AKS_APP_SETTINGS" {
-  type        = string
-  description = "The AKS Applications settings ID"
-}
 
-variable "APPINS_IKEY" {
-  type        = string
-  description = "The application Insights key for the function app"
-}
 

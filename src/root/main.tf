@@ -148,10 +148,9 @@ module "function" {
   LOCATION            = var.LOCATION
   FUNCTION_RG         = azurerm_resource_group.function-app.name
   FUNCTION_APP_JSON   = var.FUNCTION_APP_JSON
-  APPINS_IKEY         = module.web.APPINS_IKEY 
+  APPINS_IKEY         = "${module.web.APPINS_IKEY}"
   TF_TENANT_ID        = var.TF_TENANT_ID
   // SSH_PUBLIC_KEY      = var.SSH_PUBLIC_KEY
   ACR_SP_ID           = var.ACR_SP_ID
-  // ACR_SP_SECRET       = var.ACR_SP_SECRET
-  // AKS_APP_SETTINGS    = module.webapp.APPINS_IKEY
+  ACR_SP_SECRET       = var.ACR_SP_SECRET
 }

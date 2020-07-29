@@ -33,3 +33,8 @@ variable "ACR_SP_ID" {
   type        = string
   description = "The ACR Service Principal ID"
 }
+
+variable "ACR_SP_SECRET" {
+  type        = string
+  description = "The ACR Service Principal secret"
+}
